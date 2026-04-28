@@ -1,11 +1,12 @@
-# Étape 1 : Compilation
-FROM gradle:8.5-jdk17 AS builder
-WORKDIR /app
-COPY . .
-RUN gradle jar --no-daemon
+# Utilise directement l'image Java 21
+FROM eclipse-temurin:21-jre-jammy
 
-# Étape 2 : Exécution
-FROM openjdk:17-jdk-slim
+# Définit le dossier de travail
 WORKDIR /app
-COPY --from=builder /app/build/libs/ContactsManager.jar .
-CMD ["java", "-jar", "ContactsManager.jar"]
+
+# Copie le JAR que TU as déjà généré localement avec ./gradlew jar
+# Note : le chemin doit correspondre à ton dossier build/libs
+COPY build/libs/*.jar app.jar
+
+# Lance l'application
+ENTRYPOINT ["java", "-jar", "app.jar"]

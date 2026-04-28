@@ -1,14 +1,48 @@
-# Étape 1 : Construction (Compilation du JAR)
-FROM gradle:8.5-jdk21 AS builder
-WORKDIR /app
-COPY . .
-RUN ./gradlew jar --no-daemon
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+.kotlin
+.gradle/
+build/
+.idea/
+*.iml
+out/
 
-# Étape 2 : Exécution (Image finale légère)
-FROM eclipse-temurin:21-jre-jammy
-WORKDIR /app
-# On récupère le JAR généré à l'étape 1
-COPY --from=builder /app/build/libs/*.jar app.jar
+### IntelliJ IDEA ###
+.idea/modules.xml
+.idea/jarRepositories.xml
+.idea/compiler.xml
+.idea/libraries/
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
 
-# Commande de lancement
-ENTRYPOINT ["java", "-jar", "app.jar"]
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### Mac OS ###
+.DS_Store
